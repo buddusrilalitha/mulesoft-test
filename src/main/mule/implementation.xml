@@ -94,7 +94,7 @@ output application/json
 		</ee:transform>
 	</flow>
 	<flow name="deleteempFlow" doc:id="ced4e2ae-203c-4832-bdbc-ff427cbff1a3" >
-		<ee:transform doc:name="Transform Message" doc:id="231e55b1-6db4-40c3-b00d-f4703da94eae" >
+		<ee:transform doc:name="delete message" doc:id="231e55b1-6db4-40c3-b00d-f4703da94eae" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
