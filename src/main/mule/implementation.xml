@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="allempdata" doc:id="dadee750-4ba6-4076-96ce-e8c2f27c088c" >
+		<set-payload value='#[output application/json
+---
+[
+	{
+		id : 2,
+    	name : "Sri Lalitha",
+    	department : "Integration",
+    	doj : "03-06-2019",
+    	designation : "Integration Developer"
+	},
+	{
+		id : 1,
+    	name : "Poojitha Survi",
+    	department : "Functional",
+    	doj : "31-05-2019",
+    	designation : "Netsuite Consultant"
+	},
+	{
+		id : 4,
+    	name : "Sree Lakshmi",
+    	department : "Functional",
+    	doj : "31-05-2019",
+    	designation : "Netsuite Consultant"
+	},
+	{
+		id : 3,
+    	name : "Ramya Sri Sai Kolli",
+    	department : "Technical",
+    	doj : "31-05-2019",
+    	designation : "Technical Consultant"
+	},
+	{
+		id : 5,
+    	name : "Pavan Kumar",
+    	department : "Integration",
+    	doj : "31-05-2019",
+    	designation : "Integration Developer"
+	},
+	{
+		id : 6,
+    	name : "Soumya Doddapaneni",
+    	department : "Technical",
+    	doj : "31-05-2019",
+    	designation : "Technical Consultant"
+	}
+]]' doc:name="Set Payload" doc:id="aa32ec28-2db1-4ec9-94a3-d9e65080cda1" />
+	</flow>
+	<flow name="getallempFlow" doc:id="8434d0c1-7d20-485b-8244-5600aa6fe576" >
+		<choice doc:name="Choice" doc:id="6756453b-d7c7-4806-8327-ef9478da2d26" >
+			<when expression='#[(attributes.queryParams.department == "") and (attributes.queryParams.department == null)]'>
+				<flow-ref doc:name="allempdata" doc:id="d34e9ac7-c8de-4afd-a0b3-e146b60b66ab" name="allempdata" />
+			</when>
+			<otherwise >
+				<flow-ref doc:name="allempdata" doc:id="425562c2-d9d7-46b4-846d-f9539209bfd0" name="allempdata"/>
+				<ee:transform doc:name="filter by department" doc:id="54cf2cd9-d748-439c-a6cd-6c9470fb207c" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload filter ($.department == attributes.queryParams.department)]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</flow>
+	<flow name="getempbyIDFlow" doc:id="9614b473-4df2-4f7d-aec8-7c8c7ff1591b" >
+		<flow-ref doc:name="allempdata" doc:id="1c476e1e-78b1-459c-ab08-bd146fa0102d" name="allempdata"/>
+		<ee:transform doc:name="filter by ID" doc:id="a615aa82-823f-45ef-b13d-38a37f167e0d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload filter ($.id == attributes.uriParams.'empid')]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="postempFlow" doc:id="0442bdac-e045-44c1-b66e-fb25c5340ceb" >
+		<ee:transform doc:name="Transform Message" doc:id="38da7901-ed34-4108-83c3-83cd298a9501" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "Employee created but not added to Database"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="deleteempFlow" doc:id="ced4e2ae-203c-4832-bdbc-ff427cbff1a3" >
+		<ee:transform doc:name="Transform Message" doc:id="231e55b1-6db4-40c3-b00d-f4703da94eae" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "Employee with ID  " ++ attributes.uriParams.'empid' ++ " is deleted (but not really)"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="putempFlow" doc:id="8c82de31-7b04-49a0-98e1-9d835b7d7603" >
+		<ee:transform doc:name="Transform Message" doc:id="beef3f05-dc8d-4166-9a85-a99aa0a297e8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "Employee is updated (but not really)."
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
