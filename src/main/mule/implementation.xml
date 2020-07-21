@@ -53,7 +53,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 ]]' doc:name="Set Payload" doc:id="aa32ec28-2db1-4ec9-94a3-d9e65080cda1" />
 	</flow>
 	<flow name="getallempFlow" doc:id="8434d0c1-7d20-485b-8244-5600aa6fe576" >
-		<choice doc:name="Choice" doc:id="6756453b-d7c7-4806-8327-ef9478da2d26" >
+		<choice doc:name="Choice by queryparameters" doc:id="6756453b-d7c7-4806-8327-ef9478da2d26" >
 			<when expression='#[(attributes.queryParams.department == "") and (attributes.queryParams.department == null)]'>
 				<flow-ref doc:name="allempdata" doc:id="d34e9ac7-c8de-4afd-a0b3-e146b60b66ab" name="allempdata" />
 			</when>
