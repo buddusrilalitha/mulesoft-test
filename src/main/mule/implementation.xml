@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="allempdata" doc:id="dadee750-4ba6-4076-96ce-e8c2f27c088c" >
 		<set-payload value='#[output application/json
----
+var test = 
 [
 	{
 		id : 2,
@@ -50,23 +50,25 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
     	doj : "31-05-2019",
     	designation : "Technical Consultant"
 	}
-]]' doc:name="Set Payload" doc:id="aa32ec28-2db1-4ec9-94a3-d9e65080cda1" />
+] 
+---
+test orderBy $.id]' doc:name="Set Payload" doc:id="aa32ec28-2db1-4ec9-94a3-d9e65080cda1" />
 	</flow>
 	<flow name="getallempFlow" doc:id="8434d0c1-7d20-485b-8244-5600aa6fe576" >
 		<choice doc:name="Choice by queryparameters" doc:id="6756453b-d7c7-4806-8327-ef9478da2d26" >
-			<when expression='#[(attributes.queryParams.department == "") and (attributes.queryParams.department == null)]'>
+			<when expression='#[(attributes.queryParams.department != "") and (attributes.queryParams.department != null)]'>
 				<flow-ref doc:name="allempdata" doc:id="d34e9ac7-c8de-4afd-a0b3-e146b60b66ab" name="allempdata" />
-			</when>
-			<otherwise >
-				<flow-ref doc:name="allempdata" doc:id="425562c2-d9d7-46b4-846d-f9539209bfd0" name="allempdata"/>
-				<ee:transform doc:name="filter by department" doc:id="54cf2cd9-d748-439c-a6cd-6c9470fb207c" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
+				<ee:transform doc:name="filter by department" doc:id="54cf2cd9-d748-439c-a6cd-6c9470fb207c">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 payload filter ($.department == attributes.queryParams.department)]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
+			</when>
+			<otherwise >
+				<flow-ref doc:name="allempdata" doc:id="425562c2-d9d7-46b4-846d-f9539209bfd0" name="allempdata"/>
 			</otherwise>
 		</choice>
 	</flow>
