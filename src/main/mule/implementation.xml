@@ -84,7 +84,7 @@ payload filter ($.id == attributes.uriParams.'empid')]]></ee:set-payload>
 		</ee:transform>
 	</flow>
 	<flow name="postempFlow" doc:id="0442bdac-e045-44c1-b66e-fb25c5340ceb" >
-		<ee:transform doc:name="Transform Message" doc:id="38da7901-ed34-4108-83c3-83cd298a9501" >
+		<ee:transform doc:name="postmessage" doc:id="38da7901-ed34-4108-83c3-83cd298a9501" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
